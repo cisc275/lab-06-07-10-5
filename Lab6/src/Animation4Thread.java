@@ -1,16 +1,21 @@
 
  
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -38,6 +43,7 @@ public class Animation4Thread extends JFrame {
     	};
     	
     	add(drawPanel);
+    	
     	BufferedImage img = createImage();
     	pics = new BufferedImage[frameCount];//get this dynamically
     	for(int i = 0; i < frameCount; i++)
@@ -48,6 +54,7 @@ public class Animation4Thread extends JFrame {
     	setVisible(true);
     	pack();
     }
+  
 	
     @SuppressWarnings("serial")
 	private class DrawPanel extends JPanel {
@@ -64,6 +71,7 @@ public class Animation4Thread extends JFrame {
 			return new Dimension(frameStartSize, frameStartSize);
 		}
 	}
+    /*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
@@ -73,6 +81,7 @@ public class Animation4Thread extends JFrame {
 			}
 		});
 	}
+	*/
     
     //Read image from file and return
     private BufferedImage createImage(){

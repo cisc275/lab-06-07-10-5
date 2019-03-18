@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -6,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 
 /**
  * View: Contains everything about graphics and images
@@ -35,13 +37,6 @@ public class View extends JPanel {
     private int orcDirect;
 	
 	public View()	{
-		JFrame frame = new JFrame();
-    	frame.getContentPane().add(this);
-    	frame.setBackground(Color.gray);
-    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	frame.setSize(frameWidth, frameHeight);
-    	frame.setVisible(true);
-    	
     	animations = new BufferedImage[WalkingAnimations][frameCount];
 
 		String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
@@ -56,7 +51,14 @@ public class View extends JPanel {
     			animations[i][j] = pics[i].getSubimage(imageWidth*j, 0, imageWidth, imageHeight);
     		}
     	}
+    	JFrame frame = new JFrame();
+    	frame.getContentPane().add(this);
+    	frame.setBackground(Color.gray);
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame.setSize(frameWidth, frameHeight);
+    	frame.setVisible(true);
     }  
+	
 
 	public void paint(Graphics g) {
 		picNum = (picNum + 1) % frameCount;

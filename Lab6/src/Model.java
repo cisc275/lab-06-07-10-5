@@ -1,3 +1,6 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Model: Contains all the state and logic
  * Does not contain anything about images or graphics, must ask view for that
@@ -9,7 +12,7 @@
  * provide location
  **/
 
-public class Model {
+public class Model implements ActionListener {
 	private int direction;
     private int xloc = 0;
     private int yloc = 0;
@@ -33,6 +36,11 @@ public class Model {
 		this.imageWidth = imageWidth;
 	}
 	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	public void updateLocationAndDirection() {
 		//collisions
 		xloc+=(xMult*xIncr);
