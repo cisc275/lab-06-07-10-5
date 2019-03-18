@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
  * provide location
  **/
 
-public class Model implements ActionListener {
+public class Model {
 	private int direction;
     private int xloc = 0;
     private int yloc = 0;
@@ -36,11 +36,6 @@ public class Model implements ActionListener {
 		this.imageWidth = imageWidth;
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	public void updateLocationAndDirection() {
 		//collisions
 		xloc+=(xMult*xIncr);
