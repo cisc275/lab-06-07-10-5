@@ -20,7 +20,7 @@ import javax.swing.Timer;
 /**
  * Do not modify this file without permission from your TA.
  **/
-public class Controller extends JFrame implements ActionListener{
+public class Controller extends JFrame {
 
 	private Model model;
 	private View view;
@@ -29,10 +29,7 @@ public class Controller extends JFrame implements ActionListener{
 	public Controller(){
 		view = new View();
 		model = new Model(view.getWidth(), view.getHeight(), view.getImageWidth(), view.getImageHeight());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setSize(model.getHeight(), model.getWidth());
-    	setVisible(true);
-    	pack();
+    	
 	}
 	
 	
@@ -43,6 +40,7 @@ public class Controller extends JFrame implements ActionListener{
 			model.updateLocationAndDirection();
 			//update the view
 			view.update(model.getX(), model.getY(), model.getDirect());
+			add(view);
 		}
 	}
 	
@@ -54,12 +52,5 @@ public class Controller extends JFrame implements ActionListener{
 				t.start();
 			}
 		});
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		view.repaint();
-		
 	}
 }

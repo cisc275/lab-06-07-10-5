@@ -1,10 +1,15 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -35,6 +40,8 @@ public class View extends JPanel {
     private int frameHeight = 300;
     private int orcx, orcy;
     private int orcDirect;
+    Action drawAction;
+    JButton b1 = new JButton("Move Orc");
 	
 	public View()	{
     	animations = new BufferedImage[WalkingAnimations][frameCount];
@@ -57,6 +64,28 @@ public class View extends JPanel {
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
+    	
+    	b1.setVerticalTextPosition(AbstractButton.CENTER);
+        b1.setHorizontalTextPosition(AbstractButton.LEADING);
+		b1.setActionCommand("move");
+		b1.addActionListener(drawAction);
+		JPanel panel = new JPanel();
+		panel.add(b1);
+		frame.add(panel);
+		
+		
+    	
+    	drawAction = new AbstractAction(){
+    		public void actionPerformed(ActionEvent e){
+    			if ("move".equals(e.getActionCommand()))	{
+    				repaint();
+    			}
+    			
+    		}
+    	};
+    	
+    	
+    	
     }  
 	
 
