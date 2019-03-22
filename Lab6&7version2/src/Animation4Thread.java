@@ -1,5 +1,6 @@
 
  
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -14,6 +15,7 @@ import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JButton;
 
 public class Animation4Thread extends JFrame {
 
@@ -26,6 +28,7 @@ public class Animation4Thread extends JFrame {
     final int picSize = 165;
     final int frameStartSize = 800;
     final int drawDelay = 30; //msec
+    boolean flag = true;
     
     DrawPanel drawPanel = new DrawPanel();
     Action drawAction;
@@ -33,7 +36,14 @@ public class Animation4Thread extends JFrame {
     public Animation4Thread() {
     	drawAction = new AbstractAction(){
     		public void actionPerformed(ActionEvent e){
-    			drawPanel.repaint();
+    			if ("Pressed".equals(e.getActionCommand())) {
+    				drawPanel.setEnabled(false);
+    				flag = !flag;
+    				
+    			}
+    			else if (flag == true){
+    				drawPanel.repaint();
+    			}
     		}
     	};
     	
@@ -49,6 +59,7 @@ public class Animation4Thread extends JFrame {
     	pack();
     }
 	
+    //---------------------------------------------------------------------------------------------------------
     @SuppressWarnings("serial")
 	private class DrawPanel extends JPanel {
     	int picNum = 0;
@@ -58,6 +69,14 @@ public class Animation4Thread extends JFrame {
 			g.setColor(Color.gray);
 	    	picNum = (picNum + 1) % frameCount;
 	    	g.drawImage(pics[picNum], xloc+=xIncr, yloc+=yIncr, Color.gray, this);
+	    	setBackground(Color.gray);
+	    	
+	    	setLayout(null);
+	    	JButton button = new JButton("Start/Stop");
+	    	button.setActionCommand("Pressed");
+	    	button.addActionListener(drawAction);
+	    	button.setBounds(frameStartSize/2, 600, 75, 50);
+	    	add(button, BorderLayout.SOUTH);
 		}
 
 		public Dimension getPreferredSize() {
