@@ -1,4 +1,3 @@
-
 public enum Direction {
 	NORTH("north"),
 	NORTHEAST("northeast"),

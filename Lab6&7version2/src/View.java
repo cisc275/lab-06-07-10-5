@@ -10,13 +10,16 @@
  * load images for all direction (an image should only be loaded once!!! why?)
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -42,14 +45,17 @@ public class View extends JPanel {
      * Initializes a new frame to view the animation.
      * Loads orc images into a BufferedImage array.
      */
-    public View() {
-    	
+    public View() 
+    {
+    	/*
     	JFrame frame = new JFrame();
     	frame.getContentPane().add(this);
     	frame.setBackground(Color.gray);
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
+    	*/
+    	
 
     	animations = new BufferedImage[directionCount][frameCount];
     	BufferedImage[] indexArray = new BufferedImage[directionCount];
@@ -61,20 +67,29 @@ public class View extends JPanel {
     		indexArray[i] = createImage("src/orc_animation/orc_forward_" + directionArray[i] + ".png");
     	}
 
-    	for (int i = 0; i < directionCount; i++) {
-    		for (int j = 0; j < frameCount; j++) {
+    	for (int i = 0; i < directionCount; i++) 
+    	{
+    		for (int j = 0; j < frameCount; j++) 
+    		{
     			animations[i][j] = indexArray[i].getSubimage(imgWidth*j, 0, imgWidth, imgHeight);
     		}
     	}
+    	
+    	
+    	
+    	
     }
-    
-    public static void main(String[] args) {
+    /*
+    public static void main(String[] args) 
+    {
 		
     	Controller controller = new Controller();
 		controller.start();
 	}
+	*/
     
-    private BufferedImage createImage(String name) {
+    private BufferedImage createImage(String name) 
+    {
     	
     	BufferedImage bufferedImage;
     	try {
@@ -87,12 +102,22 @@ public class View extends JPanel {
 	}
     
     @Override
-    public void paint(Graphics g) {
-    	
+    public void paint(Graphics g) 
+    {	
     	picNum = (picNum + 1) % frameCount;
     	g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
-    }
+    	
+
+	}
+
+ 
     
+	public Dimension getPreferredSize() 
+	{
+		return new Dimension(Controller.FRAME_START_SIZE, Controller.FRAME_START_SIZE);
+		
+	}
+
     /**
      * Updates the position of the orc and repaints the frame with the orc's new position
      * @param x, the x coordinate of the orc
@@ -114,13 +139,15 @@ public class View extends JPanel {
 		}
     }
     
-    public int getWidth() {
+    
+    public int getFrameWidth() {
     	return frameWidth;
     }
     
-    public int getHeight() {
+    public int getFrameHeight() {
     	return frameHeight;
     }
+    
     
     public int getImageWidth() {
     	return imgWidth;
@@ -130,11 +157,4 @@ public class View extends JPanel {
     	return imgHeight;
     }
     
-    public int getFrameWidth() {
-		return frameWidth;
-	}
-    
-    public int getFrameHeight() {
-    	return frameHeight;
-    }
 }
