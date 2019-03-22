@@ -37,9 +37,7 @@ public class Animation4Thread extends JFrame {
     	drawAction = new AbstractAction(){
     		public void actionPerformed(ActionEvent e){
     			if ("Pressed".equals(e.getActionCommand())) {
-    				drawPanel.setEnabled(false);
     				flag = !flag;
-    				
     			}
     			else if (flag == true){
     				drawPanel.repaint();
