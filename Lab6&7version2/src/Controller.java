@@ -45,7 +45,7 @@ public class Controller extends JFrame {
     	setVisible(true);
     	pack();
     	
-    	setLayout(null);
+    	//setLayout(null);
     	JButton button = new JButton("Start/Stop");
     	button.setActionCommand("Pressed");
     	button.addActionListener(drawAction);
