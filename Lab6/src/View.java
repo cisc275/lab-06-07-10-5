@@ -58,8 +58,8 @@ public class View extends JPanel {
 		button = new JButton("Start/Stop");
 		button.setBackground(Color.RED);
 		button.setOpaque(true);
-		button.setBounds(Controller.FRAME_START_SIZE / 2, 600, 100, 50);
-		frame.add(button, BorderLayout.SOUTH);
+		//button.setBounds(Controller.FRAME_START_SIZE / 2, 600, 100, 50);
+		this.add(button);
 		button.setActionCommand("Pressed");
     	
 
@@ -80,7 +80,7 @@ public class View extends JPanel {
 			}
 		}
 		frame.setVisible(true);
-		button.setVisible(true);
+		//button.setVisible(true);
 
 	}
 	
@@ -101,7 +101,7 @@ public class View extends JPanel {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paintComponent(Graphics g) {
 		picNum = (picNum + 1) % frameCount;
 		g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 
