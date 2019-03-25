@@ -59,7 +59,7 @@ public class View extends JPanel {
 		button.setBackground(Color.RED);
 		button.setOpaque(true);
 		button.setBounds(Controller.FRAME_START_SIZE / 2, 600, 100, 50);
-		add(button, BorderLayout.SOUTH);
+		frame.add(button, BorderLayout.SOUTH);
 		button.setActionCommand("Pressed");
     	
 
@@ -80,6 +80,7 @@ public class View extends JPanel {
 			}
 		}
 		frame.setVisible(true);
+		button.setVisible(true);
 
 	}
 	
@@ -133,10 +134,7 @@ public class View extends JPanel {
 			e.printStackTrace();
 		}
 	}
-	
-	public JButton getButton() 	{
-		return button;
-	}
+
 
 	public int getFrameWidth() {
 		return frameWidth;

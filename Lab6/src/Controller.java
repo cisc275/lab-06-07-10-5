@@ -25,11 +25,7 @@ public class Controller extends JFrame implements ActionListener {
 	@SuppressWarnings("serial")
 	public Controller() {
 		drawPanel = new View();
-		model = new Model(drawPanel.getFrameWidth(), drawPanel.getFrameHeight(), drawPanel.getImageWidth(),
-				drawPanel.getImageHeight());
-		// System.out.println(drawPanel.getFrameWidth() + ", " +
-		// drawPanel.getFrameHeight() + ", " + drawPanel.getImageWidth() + ", " +
-		// drawPanel.getImageHeight());
+		model = new Model(drawPanel.getFrameWidth(), drawPanel.getFrameHeight(), drawPanel.getImageWidth(),drawPanel.getImageHeight());
 		drawPanel.updateButton(this);
 	}
 
@@ -45,10 +41,6 @@ public class Controller extends JFrame implements ActionListener {
 			}
 		};
 
-		// add(drawPanel);
-
-		// setLayout(null);
-
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Timer t = new Timer(DRAW_DELAY, drawAction);
@@ -59,9 +51,9 @@ public class Controller extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//if ("Pressed".equals(e.getActionCommand())) {
-			flag = !flag;
-		//}
+		// if ("Pressed".equals(e.getActionCommand())) {
+		flag = !flag;
+		// }
 	}
 
 }
