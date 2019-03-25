@@ -102,6 +102,8 @@ public class View extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		setBackground(Color.gray);
 		picNum = (picNum + 1) % frameCount;
 		g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 
