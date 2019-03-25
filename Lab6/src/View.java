@@ -48,13 +48,20 @@ public class View extends JPanel {
 	 * images into a BufferedImage array.
 	 */
 	public View() {
+
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(this);
+		frame.setBackground(Color.gray);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(frameWidth, frameHeight);
 		
-		 JFrame frame = new JFrame(); frame.getContentPane().add(this);
-		 frame.setBackground(Color.gray);
-		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		 frame.setSize(frameWidth, frameHeight); frame.setVisible(true);
-		 JButton button = new JButton("Start/Stop");
-		 
+		button = new JButton("Start/Stop");
+		button.setBackground(Color.RED);
+		button.setOpaque(true);
+		button.setBounds(Controller.FRAME_START_SIZE / 2, 600, 100, 50);
+		add(button, BorderLayout.SOUTH);
+		button.setActionCommand("Pressed");
+    	
 
 		animations = new BufferedImage[directionCount][frameCount];
 		BufferedImage[] indexArray = new BufferedImage[directionCount];
@@ -72,11 +79,13 @@ public class View extends JPanel {
 				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
 			}
 		}
-		button.setBounds(Controller.FRAME_START_SIZE/2, 600, 100, 50);
-    	add(button, BorderLayout.SOUTH);
+		frame.setVisible(true);
 
 	}
 	
+	public void updateButton(Controller c)	{
+		button.addActionListener(c);
+	}
 
 	private BufferedImage createImage(String name) {
 
@@ -99,7 +108,6 @@ public class View extends JPanel {
 
 	public Dimension getPreferredSize() {
 		return new Dimension(Controller.FRAME_START_SIZE, Controller.FRAME_START_SIZE);
-
 	}
 
 	/**
@@ -115,8 +123,8 @@ public class View extends JPanel {
 		this.x = x;
 		this.y = y;
 		this.dir = d;
-		System.out.printf("Model x = %d",this.x);
-		System.out.printf("Model y = %d",this.y);
+		System.out.printf("Model x = %d \n", this.x);
+		System.out.printf("Model y = %d \n", this.y);
 		try {
 			this.setBackground(Color.gray);
 			this.repaint();
@@ -124,6 +132,10 @@ public class View extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public JButton getButton() 	{
+		return button;
 	}
 
 	public int getFrameWidth() {
@@ -143,4 +155,3 @@ public class View extends JPanel {
 	}
 
 }
-
