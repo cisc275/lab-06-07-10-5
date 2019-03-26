@@ -15,7 +15,7 @@ import javax.swing.Timer;
  * Do not modify this file without permission from your TA.
  **/
 
-public class Controller extends JFrame implements ActionListener {
+public class Controller extends JFrame implements ActionListener, KeyListener {
 
 	private Model model;
 	private View drawPanel;
@@ -29,41 +29,7 @@ public class Controller extends JFrame implements ActionListener {
 		drawPanel = new View();
 		model = new Model(drawPanel.getFrameWidth(), drawPanel.getFrameHeight(), drawPanel.getImageWidth(),drawPanel.getImageHeight());
 		drawPanel.updateButton(this);
-		
-		KeyListener listener = new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int key = e.getKeyCode();
-				
-				if(key == KeyEvent.VK_F) {
-					// Pressed F key to fire
-					drawPanel.setMovement("_fire_");
-					drawPanel.setCount(drawPanel.getFIRE_COUNT());
-					System.out.println("F has been pressed");
-				}
-				else if(key == KeyEvent.VK_J) {
-					// Pressed J key to jump
-					drawPanel.setMovement("_jump_");
-					drawPanel.setCount(drawPanel.getJUMP_COUNT());
-					System.out.println("J has been pressed");
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				drawPanel.setMovement("_forward_");
-				drawPanel.setCount(drawPanel.getFRAME_COUNT());
-				System.out.println("Key released");
-				
-				
-			}
-		};
+		drawPanel.addKeyListener(this);
 	}
 
 	// run the simulation
@@ -93,4 +59,35 @@ public class Controller extends JFrame implements ActionListener {
 		// if ("Pressed".equals(e.getActionCommand())) {
 		flag = !flag;
 	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("keyPressed");
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		System.out.println("hiiiiiii");
+		if(key == KeyEvent.VK_F) {
+			// Pressed F key to fire
+			drawPanel.setMovement("_fire_");
+			drawPanel.setCount(drawPanel.getFIRE_COUNT());
+			System.out.println("F has been pressed");
+		}
+		else if(key == KeyEvent.VK_J) {
+			// Pressed J key to jump
+			drawPanel.setMovement("_jump_");
+			drawPanel.setCount(drawPanel.getJUMP_COUNT());
+			System.out.println("J has been pressed");
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		drawPanel.setMovement("_forward_");
+		drawPanel.setCount(drawPanel.getFRAME_COUNT());
+		System.out.println("Key released");
+	}
+		
 }

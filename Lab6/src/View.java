@@ -81,17 +81,19 @@ public class View extends JPanel {
 
 		for (int i = 0; i < directionArray.length; i++) {
 			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
-			System.out.println("first loop");
+			//System.out.println("first loop");
 		}
 
 		for (int i = 0; i < directionArray.length; i++) {
 			for (int j = 0; j < FRAME_COUNT; j++) {
 				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
-				System.out.println("second loop");
+				//System.out.println("second loop");
 			}
 		}
 		frame.setVisible(true);
 		//button.setVisible(true);
+		
+		this.setFocusable(true);
 
 	}
 	
