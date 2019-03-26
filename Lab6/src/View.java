@@ -26,6 +26,8 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class View extends JPanel {
+	
+	private String movement;
 
 	private int frameWidth = 800;
 	private int frameHeight = 800;
@@ -34,13 +36,15 @@ public class View extends JPanel {
 
 	private BufferedImage[][] animations;
 
+	public int count;
+	
 	private final int FRAME_COUNT = 10;
 	private final int DIE_COUNT = 4;
 	private final int FIRE_COUNT = 8;
 	private final int JUMP_COUNT = 8;
 	
 	
-	private final int DIRECTION_COUNT = 24;
+	private final int DIRECTION_COUNT = 8; //24;
 	private int picNum = 0;
 
 	private int x;
@@ -53,7 +57,9 @@ public class View extends JPanel {
 	 * images into a BufferedImage array.
 	 */
 	public View() {
-
+		movement = "_forward_";
+		count = FRAME_COUNT;
+		
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(this);
 		frame.setBackground(Color.gray);
@@ -66,23 +72,22 @@ public class View extends JPanel {
 		//button.setBounds(Controller.FRAME_START_SIZE / 2, 600, 100, 50);
 		this.add(button);
 		button.setActionCommand("Pressed");
-    	
 
-		animations = new BufferedImage[DIRECTION_COUNT][FRAME_COUNT];
+		animations = new BufferedImage[DIRECTION_COUNT][count];
 		BufferedImage[] indexArray = new BufferedImage[DIRECTION_COUNT];
 
 		// Fills an array with the file paths for 8 different orc images
-		String[] directionArray = { "_forward_southeast", "_forward_east", "_forward_north", "_forward_northeast", "_forward_northwest", "_forward_south", "_forward_southwest",
-				"_forward_west", "_die_east", "_die_north", "_die_south", "_die_west", "_fire_east", "_fire_north", "_fire_northeast", "_fire_northwest", 
-				"_fire_south", "_fire_southeast", "_fire_southwest", "_fire_west"};
+		String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
 
 		for (int i = 0; i < directionArray.length; i++) {
-			indexArray[i] = createImage("src/orc_animation/orc" + directionArray[i] + ".png");
+			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
+			System.out.println("first loop");
 		}
 
 		for (int i = 0; i < directionArray.length; i++) {
 			for (int j = 0; j < FRAME_COUNT; j++) {
 				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+				System.out.println("second loop");
 			}
 		}
 		frame.setVisible(true);
@@ -158,6 +163,30 @@ public class View extends JPanel {
 
 	public int getImageHeight() {
 		return imgHeight;
+	}
+	
+	public void setMovement(String movement) {
+		this.movement = movement;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	public int getFRAME_COUNT() {
+		return this.FRAME_COUNT;
+	}
+	
+	public int getDIE_COUNT() {
+		return this.DIE_COUNT;
+	}
+	
+	public int getFIRE_COUNT() {
+		return this.FIRE_COUNT;
+	}
+	
+	public int getJUMP_COUNT() {
+		return this.JUMP_COUNT;
 	}
 
 }
