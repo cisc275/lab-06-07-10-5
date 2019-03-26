@@ -63,12 +63,12 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("keyPressed");
+		
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		System.out.println("hiiiiiii");
+		
 		if(key == KeyEvent.VK_F) {
 			// Pressed F key to fire
 			drawPanel.setMovement("_fire_");
@@ -87,7 +87,6 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		drawPanel.setMovement("_forward_");
 		drawPanel.setCount(drawPanel.getFRAME_COUNT());
-		System.out.println("Key released");
 	}
 		
 }
