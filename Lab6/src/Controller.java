@@ -15,7 +15,7 @@ import javax.swing.Timer;
  * Do not modify this file without permission from your TA.
  **/
 
-public class Controller extends JFrame implements ActionListener, KeyListener {
+public class Controller extends JFrame implements ActionListener {
 
 	private Model model;
 	private View drawPanel;
@@ -29,6 +29,41 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		drawPanel = new View();
 		model = new Model(drawPanel.getFrameWidth(), drawPanel.getFrameHeight(), drawPanel.getImageWidth(),drawPanel.getImageHeight());
 		drawPanel.updateButton(this);
+		
+		KeyListener listener = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int key = e.getKeyCode();
+				
+				if(key == KeyEvent.VK_F) {
+					// Pressed F key to fire
+					drawPanel.setMovement("_fire_");
+					drawPanel.setCount(drawPanel.getFIRE_COUNT());
+					System.out.println("F has been pressed");
+				}
+				else if(key == KeyEvent.VK_J) {
+					// Pressed J key to jump
+					drawPanel.setMovement("_jump_");
+					drawPanel.setCount(drawPanel.getJUMP_COUNT());
+					System.out.println("J has been pressed");
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				drawPanel.setMovement("_forward_");
+				drawPanel.setCount(drawPanel.getFRAME_COUNT());
+				System.out.println("Key released");
+				
+				
+			}
+		};
 	}
 
 	// run the simulation
@@ -51,29 +86,11 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		});
 	}
 
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// if ("Pressed".equals(e.getActionCommand())) {
 		flag = !flag;
-		
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
