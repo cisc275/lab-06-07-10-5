@@ -77,12 +77,12 @@ public class Model {
     }
     
     public int getX() {
-    	System.out.printf("Model x = %d",xloc);
+//    	System.out.printf("Model x = %d",xloc);
 		return xloc;
 	}
     
     public int getY() {
-    	System.out.printf("Model y = %d",yloc);
+//    	System.out.printf("Model y = %d",yloc);
 		return yloc;
 		
 	}

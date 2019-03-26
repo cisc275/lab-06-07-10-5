@@ -34,8 +34,13 @@ public class View extends JPanel {
 
 	private BufferedImage[][] animations;
 
-	private final int frameCount = 10;
-	private final int directionCount = 8;
+	private final int FRAME_COUNT = 10;
+	private final int DIE_COUNT = 4;
+	private final int FIRE_COUNT = 8;
+	private final int JUMP_COUNT = 8;
+	
+	
+	private final int DIRECTION_COUNT = 24;
 	private int picNum = 0;
 
 	private int x;
@@ -63,19 +68,20 @@ public class View extends JPanel {
 		button.setActionCommand("Pressed");
     	
 
-		animations = new BufferedImage[directionCount][frameCount];
-		BufferedImage[] indexArray = new BufferedImage[directionCount];
+		animations = new BufferedImage[DIRECTION_COUNT][FRAME_COUNT];
+		BufferedImage[] indexArray = new BufferedImage[DIRECTION_COUNT];
 
 		// Fills an array with the file paths for 8 different orc images
-		String[] directionArray = { "southeast", "east", "north", "northeast", "northwest", "south", "southwest",
-				"west" };
+		String[] directionArray = { "_forward_southeast", "_forward_east", "_forward_north", "_forward_northeast", "_forward_northwest", "_forward_south", "_forward_southwest",
+				"_forward_west", "_die_east", "_die_north", "_die_south", "_die_west", "_fire_east", "_fire_north", "_fire_northeast", "_fire_northwest", 
+				"_fire_south", "_fire_southeast", "_fire_southwest", "_fire_west"};
 
 		for (int i = 0; i < directionArray.length; i++) {
-			indexArray[i] = createImage("src/orc_animation/orc_forward_" + directionArray[i] + ".png");
+			indexArray[i] = createImage("src/orc_animation/orc" + directionArray[i] + ".png");
 		}
 
-		for (int i = 0; i < directionCount; i++) {
-			for (int j = 0; j < frameCount; j++) {
+		for (int i = 0; i < directionArray.length; i++) {
+			for (int j = 0; j < FRAME_COUNT; j++) {
 				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
 			}
 		}
@@ -104,7 +110,7 @@ public class View extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(Color.gray);
-		picNum = (picNum + 1) % frameCount;
+		picNum = (picNum + 1) % FRAME_COUNT;
 		g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 
 	}
@@ -126,8 +132,8 @@ public class View extends JPanel {
 		this.x = x;
 		this.y = y;
 		this.dir = d;
-		System.out.printf("Model x = %d \n", this.x);
-		System.out.printf("Model y = %d \n", this.y);
+//		System.out.printf("Model x = %d \n", this.x);
+//		System.out.printf("Model y = %d \n", this.y);
 		try {
 			this.setBackground(Color.gray);
 			this.repaint();
