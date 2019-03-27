@@ -31,7 +31,6 @@ public class Model {
     private final int SW = 6;
     
     private int direction;
-    private String stringDirection;
     
     public Model(int w, int h, int iw, int ih) {
     	
@@ -51,37 +50,29 @@ public class Model {
     	
     	if (xloc + imgWidth >= frameWidth) {
 			xM = -1;
-			stringDirection = "east";
 		} else if (xloc + (frameHeight / 10) <= 0) {
 			xM = 1;
-			stringDirection = "west";
 		}
     	
     	if (yloc + imgHeight >= frameHeight) {
 			yM = -1;
-			stringDirection = "north";
 		} else if (yloc + (frameHeight / 10) <= 0) {
 			yM = 1;
-			stringDirection = "south";
 		}
     	
     	if (xM == 1 && yM == 1) {
     		direction = SE;
-    		stringDirection = "southeast";
     	}
     	
     	if (xM == -1 && yM == -1) {
     		direction = NW;
-    		stringDirection = "northwest";
     	}
     	if (xM == 1 && yM == -1) {
     		direction = NE;
-    		stringDirection = "northeast";
     	}
     	
     	if (xM == -1 && yM == 1){
     		direction = SW;
-    		stringDirection = "southwest";
     	}
     }
     
@@ -114,10 +105,6 @@ public class Model {
     
     public int getDirect() {
     	return direction;
-    }
-    
-    public String getStringDirect() {
-    	return stringDirection;
     }
     
     public void setX(int x) {
