@@ -9,17 +9,15 @@ import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-/**
- * Do not modify this file without permission from your TA.
- **/
-
 @SuppressWarnings("serial")
 public class Controller extends JFrame implements ActionListener, KeyListener {
 
 	private Model model;
 	private View drawPanel;
-	Action drawAction;
-	private boolean flag = true;
+	private Action drawAction;
+	
+	private boolean buttonFlag = true; // used to determine if the button has been pressed or not
+	
 	final static int FRAME_START_SIZE = 800;
 	final int DRAW_DELAY = 30;
 
@@ -30,15 +28,18 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		drawPanel.addKeyListener(this);
 	}
 
-	// run the simulation
+	/** start()
+	 * 
+	 */
 	public void start() {
-		//System.out.println("I m in start");
 		drawAction = new AbstractAction() {
+			
 			public void actionPerformed(ActionEvent e) {
-				if (flag) {
+				if (buttonFlag) {
 					if (!drawPanel.isFire || (!drawPanel.isFire && !drawPanel.isJumping)) {
 						model.updateLocationAndDirection();
 					}
+					
 					drawPanel.update(model.getX(), model.getY(), model.getDirect());
 				}
 				
@@ -54,25 +55,32 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	}
 
 	
-	
+	/** actionPerformed()
+	 * determines when a button is pressed, and the action command for that button will be set to "Pressed"
+	 * toggles the button flag
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if ("Pressed".equals(e.getActionCommand())) {
 			//Without setFocusable(false), the KeyListener stops working because the container it is listening to has lost focus to the JButton.
 			drawPanel.button.setFocusable(false);
 			
-			flag = !flag;
-			System.out.println(flag);
+			buttonFlag = !buttonFlag;
 		}
 	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		// Nothing needed to key track of typed keys at this time
+		// Method implementation not necessary for Lab 6 or 7
 	}
 	
-	
+	/** keyPressed()
+	 * Determines if specific keys are pressed
+	 * changes the movement to correspond with the key pressed (so that the file path for the image can be updated)
+	 * updates the count to reflect the appropriate number of sub-images for the image type (forward, fire, jump, etc...)
+	 * sets the flag for key pressed to be the opposite (since it was just changed)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -83,19 +91,20 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			drawPanel.setCount(drawPanel.getFIRE_COUNT());
 			
 			drawPanel.updateFire();
-			
-			System.out.println("F has been pressed");
 		}
 		else if(key == KeyEvent.VK_J) {
 			
 			drawPanel.setMovement("_jump_");
 			drawPanel.setCount(drawPanel.getJUMP_COUNT());
-			System.out.println("J has been pressed");
 			
 			drawPanel.updateJump();
 		}
 	}
 
+	/** keyReleased()
+	 * returns the orc to the default movement, which is forward
+	 * sets the count to be the frame count
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		drawPanel.setMovement("_forward_");

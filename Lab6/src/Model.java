@@ -1,6 +1,4 @@
 /** 
- * 	
- * 
  * Model: Contains all the state and logic
  * Does not contain anything about images or graphics, must ask view for that
  *
@@ -12,28 +10,28 @@
  **/
 
 public class Model {
-	
 	private int frameWidth;
     private int frameHeight;
     private int imgWidth;
     private int imgHeight;
-    private int xM = 1;
-    private int yM = 1;
+    
     private int xloc = 0;
     private int yloc = 0;
     
-    private final int xIncr = 8;
-    private final int yIncr = 2;
+    private int xVector = 1; // multiplier vector (used to determine the x-position)
+    private int yVector = 1; // multiplier vector (used to determine the y-position)
     
-    private final int NE = 3;
-    private final int NW = 4;
-    private final int SE = 0;
-    private final int SW = 6;
+    private final int xIncr = 8; // determines the speed at which the orc moves in the x-direction
+    private final int yIncr = 2; // determines the speed at which the orc moves in the y-direction
+    
+    private final int NE = 3; // numerical value for the North East direction
+    private final int NW = 4; // numerical value for the North West direction
+    private final int SE = 0; // numerical value for the South East direction
+    private final int SW = 6; // numerical value for the South West direction
     
     private int direction;
     
     public Model(int w, int h, int iw, int ih) {
-    	
     	this.frameWidth = w;
     	this.frameHeight = h;
     	this.imgWidth = iw;
@@ -45,67 +43,42 @@ public class Model {
      * Checks where the orc is on the screen and changes direction when it nears any edge
      */
     public void updateLocationAndDirection() {
-    	xloc+=(xIncr*xM);
-    	yloc+=(yIncr*yM);
+    	xloc+=(xIncr*xVector); // updates the x-direction
+    	yloc+=(yIncr*yVector); // updates the y-direction
     	
+    	// Updates the x vectors when the orc moves off the screen
     	if (xloc + imgWidth >= frameWidth) {
-			xM = -1;
-		} else if (xloc + (frameHeight / 10) <= 0) {
-			xM = 1;
+			xVector = -1; // orc is moving off the screen in the right direction; start moving right
+		} else if (xloc <= 0) {
+			xVector = 1; // orc is moving off the screen in the left direction; start moving right
 		}
     	
+    	// Updates the x vectors when the orc moves off the screen
     	if (yloc + imgHeight >= frameHeight) {
-			yM = -1;
+			yVector = -1; // orc is moving off screen in the up direction; start moving down
 		} else if (yloc + (frameHeight / 10) <= 0) {
-			yM = 1;
+			yVector = 1; // orc is moving off screen in the down direction; start moving up
 		}
     	
-    	if (xM == 1 && yM == 1) {
+    	// Determines the direction the orc is moving based using the x and y vectors
+    	if (xVector == 1 && yVector == 1) {
     		direction = SE;
-    	}
-    	
-    	if (xM == -1 && yM == -1) {
+    	} else if (xVector == -1 && yVector == -1) {
     		direction = NW;
-    	}
-    	if (xM == 1 && yM == -1) {
+    	} else if (xVector == 1 && yVector == -1) {
     		direction = NE;
-    	}
-    	
-    	if (xM == -1 && yM == 1){
+    	} else if (xVector == -1 && yVector == 1) {
     		direction = SW;
     	}
     }
     
     public int getX() {
-//    	System.out.printf("Model x = %d",xloc);
 		return xloc;
 	}
     
     public int getY() {
-//    	System.out.printf("Model y = %d",yloc);
 		return yloc;
-		
 	}
-    
-    public int getXIncr() {
-    	return xIncr;
-    }
-    
-    public int getYIncr() {
-    	return yIncr;
-    }
-    
-    public int getXM() {
-    	return xM;
-    }
-    
-    public int getYM() {
-    	return yM;
-    }
-    
-    public int getDirect() {
-    	return direction;
-    }
     
     public void setX(int x) {
     	xloc = x;
@@ -115,5 +88,23 @@ public class Model {
     	yloc = y;
     }
     
+    public int getXIncr() {
+    	return xIncr;
+    }
     
+    public int getYIncr() {
+    	return yIncr;
+    }
+    
+    public int getXVector() {
+    	return xVector;
+    }
+    
+    public int getYVector() {
+    	return yVector;
+    }
+    
+    public int getDirect() {
+    	return direction;
+    }
 }
