@@ -11,7 +11,6 @@
  * load images for all direction (an image should only be loaded once!!! why?)
  */
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -28,6 +27,7 @@ import javax.swing.JPanel;
 public class View extends JPanel {
 	
 	public boolean isFire = false;
+	public boolean isJumping = false;
 	
 	private String movement;
 
@@ -37,8 +37,13 @@ public class View extends JPanel {
 	private int imgHeight = 165;
 
 	private BufferedImage[][] animations;
-	private BufferedImage[] fireAnimation = new BufferedImage[4];
-	private BufferedImage fireIMG;
+	private BufferedImage[] fireAnimation_east = new BufferedImage[4];
+	private BufferedImage fireIMG_east;
+	
+	
+	private BufferedImage[][] fire_animations;
+	
+	private BufferedImage[][] jump_animations;
 	
 	
 	public int count;
@@ -51,8 +56,6 @@ public class View extends JPanel {
 	
 	private final int DIRECTION_COUNT = 8;
 	private int picNum = 0;
-	
-	private int fireNum = 0;
 
 	private int x;
 	private int y;
@@ -85,6 +88,8 @@ public class View extends JPanel {
 
 		// Fills an array with the file paths for 8 different orc images
 		String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
+		
+		String[] fire_directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
 
 		for (int i = 0; i < directionArray.length; i++) {
 			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
@@ -93,23 +98,53 @@ public class View extends JPanel {
 		for (int i = 0; i < directionArray.length; i++) {
 			for (int j = 0; j < FRAME_COUNT; j++) {
 				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
-				//System.out.println("second loop");
+				
 			}
 		}
 		
 		/**
-		 * fills the fire array animation 
+		 * fills the fire east animation 
 		 */
-		fireIMG = createImage("src/orc_animation/orc_fire_east.png");
+		fireIMG_east = createImage("src/orc_animation/orc_fire_east.png");
 		
 		for (int i = 0; i < 4; i++) {
-			fireAnimation[i] = fireIMG.getSubimage(imgWidth * i, 0, imgWidth, imgHeight);
+			fireAnimation_east[i] = fireIMG_east.getSubimage(imgWidth * i, 0, imgWidth, imgHeight);
 		}
 		
+		/**
+		 * fills in 2d fire array
+		 */
 		
+		fire_animations = new BufferedImage[8][4];
 		
+		BufferedImage[] indexFireArray = new BufferedImage[8];
+		for (int i = 0; i < 8; i++) {
+			indexFireArray[i] = createImage("src/orc_animation/orc_fire_" + fire_directionArray[i] + ".png");
+		}
 		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 4; j++) {
+				fire_animations[i][j] = indexFireArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+			}
+		}
 		
+		/**
+		 * fills up the 2d jump array
+		 */
+		
+		jump_animations = new BufferedImage[8][7];
+		
+		BufferedImage[] indexJumpArray = new BufferedImage[8];
+		
+		for (int i = 0; i < 8; i++) {
+			indexJumpArray[i] = createImage("src/orc_animation/orc_jump_" + fire_directionArray[i] + ".png");
+		}
+		
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 7; j++) {
+				jump_animations[i][j] = indexJumpArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+			}
+		}
 		
 		
 		
@@ -145,21 +180,20 @@ public class View extends JPanel {
 		picNum = (picNum + 1) % count;
 		
 		if (isFire) {
-			int i = 0;
 			
-			int X = this.x;
-			int Y = this.y;
-			g.drawImage(fireAnimation[picNum%4], X, Y, Color.gray, this);
-			i++;
-			if (i >= 4) {
-				isFire = !isFire;
+			g.drawImage(fire_animations[this.dir][picNum%4], this.x, this.y, Color.gray, this);
+		} else if (isJumping || (isJumping && isFire)) {
+			
+			g.drawImage(jump_animations[this.dir][picNum%7], this.x, this.y, Color.gray, this);
+			
+			if (picNum%7 == 0) {
+				this.updateJump();
 			}
-		} else {
+		} else if (!isFire || !isJumping || (isFire && !isJumping)){
+			
 			g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 		}
 		
-		
-		//g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 		
 	}
 
@@ -250,6 +284,10 @@ public class View extends JPanel {
 	
 	public void updateFire() {
 		this.isFire = !this.isFire;
+	}
+	
+	public void updateJump() {
+		this.isJumping = !this.isJumping;
 	}
 
 }
