@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +6,6 @@ import java.awt.event.KeyListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -15,6 +13,7 @@ import javax.swing.Timer;
  * Do not modify this file without permission from your TA.
  **/
 
+@SuppressWarnings("serial")
 public class Controller extends JFrame implements ActionListener, KeyListener {
 
 	private Model model;
@@ -24,7 +23,6 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	final static int FRAME_START_SIZE = 800;
 	final int DRAW_DELAY = 30;
 
-	@SuppressWarnings("serial")
 	public Controller() {
 		drawPanel = new View();
 		model = new Model(drawPanel.getFrameWidth(), drawPanel.getFrameHeight(), drawPanel.getImageWidth(),drawPanel.getImageHeight());
@@ -37,9 +35,8 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		//System.out.println("I m in start");
 		drawAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				if (flag == true) {
-					
-					if (!drawPanel.isFire) {
+				if (flag) {
+					if (!drawPanel.isFire || (!drawPanel.isFire && !drawPanel.isJumping)) {
 						model.updateLocationAndDirection();
 					}
 					drawPanel.update(model.getX(), model.getY(), model.getDirect());
@@ -90,10 +87,12 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			System.out.println("F has been pressed");
 		}
 		else if(key == KeyEvent.VK_J) {
-			// Pressed J key to jump
+			
 			drawPanel.setMovement("_jump_");
 			drawPanel.setCount(drawPanel.getJUMP_COUNT());
 			System.out.println("J has been pressed");
+			
+			drawPanel.updateJump();
 		}
 	}
 
