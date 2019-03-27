@@ -27,6 +27,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class View extends JPanel {
 	
+	public boolean isFire = false;
+	
 	private String movement;
 
 	private int frameWidth = 800;
@@ -35,24 +37,22 @@ public class View extends JPanel {
 	private int imgHeight = 165;
 
 	private BufferedImage[][] animations;
+	private BufferedImage[] fireAnimation = new BufferedImage[4];
+	private BufferedImage fireIMG;
 	
-	// Fills an array with the file paths for 8 different orc images
-	private String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
-	private BufferedImage[] forwardArray;
-	private BufferedImage[] fireArray;
-	private BufferedImage[] jumpArray;
-	//private BufferedImage[] dieArray;
-
+	
 	public int count;
 	
-	private final int FORWARD_SUBCOUNT = 10; // reflects the number of sub-images for the forwardArray[]
-	private final int DIE_SUBCOUNT = 7; // reflects the number of sub-images for the dieArray[]
-	private final int FIRE_SUBCOUNT = 4; // reflects the number of sub-images for the fireArray[]
-	private final int JUMP_SUBCOUNT = 8; // reflects the number of sub-images for the jumpArray[]
+	private final int FRAME_COUNT = 10;
+	private final int DIE_COUNT = 4;
+	private final int FIRE_COUNT = 8;
+	private final int JUMP_COUNT = 8;
 	
 	
-	private final int DIRECTION_COUNT = 8; // reflects the size of directionArray[]
+	private final int DIRECTION_COUNT = 8;
 	private int picNum = 0;
+	
+	private int fireNum = 0;
 
 	private int x;
 	private int y;
@@ -65,7 +65,7 @@ public class View extends JPanel {
 	 */
 	public View() {
 		movement = "_forward_";
-		count = FORWARD_SUBCOUNT;
+		count = FRAME_COUNT;
 		
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(this);
@@ -81,60 +81,52 @@ public class View extends JPanel {
 		button.setActionCommand("Pressed");
 
 		animations = new BufferedImage[DIRECTION_COUNT][count];
-		forwardArray = new BufferedImage[DIRECTION_COUNT];
-		fireArray = new BufferedImage[DIRECTION_COUNT];
-		jumpArray = new BufferedImage[DIRECTION_COUNT];
-		
-		fillImageArrays(forwardArray, "_forward_", FORWARD_SUBCOUNT);
-		fillImageArrays(fireArray, "_fire_", FIRE_SUBCOUNT);
-		fillImageArrays(jumpArray, "_jump_", JUMP_SUBCOUNT);
-		//fillImageArrays(jumpArray, "_die_", DIE_SUBCOUNT);
+		BufferedImage[] indexArray = new BufferedImage[DIRECTION_COUNT];
 
-		/*
-		for (int i = 0; i < directionArray.length; i++) {
-			forwardArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
-		}*/
+		// Fills an array with the file paths for 8 different orc images
+		String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
 
-		/*
 		for (int i = 0; i < directionArray.length; i++) {
-			for (int j = 0; j < FORWARD_SUBCOUNT; j++) {
-				animations[i][j] = forwardArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
+		}
+
+		for (int i = 0; i < directionArray.length; i++) {
+			for (int j = 0; j < FRAME_COUNT; j++) {
+				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
 				//System.out.println("second loop");
 			}
 		}
-		*/
+		
+		/**
+		 * fills the fire array animation 
+		 */
+		fireIMG = createImage("src/orc_animation/orc_fire_east.png");
+		
+		for (int i = 0; i < 4; i++) {
+			fireAnimation[i] = fireIMG.getSubimage(imgWidth * i, 0, imgWidth, imgHeight);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		frame.setVisible(true);
 		//button.setVisible(true);
 		
 		//Allows key presses to work with JPanel
 		this.setFocusable(true);
-	}
-	
-	/**
-	 * Helper method used to fill the arrays based on the orc movement (i.e. forward, fire, jump, etc)
-	 * @param array the array to be filled with images
-	 * @param movement the direction that corresponds to the array type
-	 * @param count the number of sub-images for the image type
-	 */
-	private void fillImageArrays(BufferedImage[] array, String movement, int count) {
-		for (int i = 0; i < DIRECTION_COUNT; i++) {
-			array[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
-			System.out.println("no issues here");
-		}
-		
-		for (int i = 0; i < directionArray.length; i++) {
-			for (int j = 0; j < count; j++) {
-				animations[i][j] = array[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
-				//System.out.println("second loop");
-			}
-		}
+
 	}
 	
 	public void updateButton(Controller c)	{
 		button.addActionListener(c);
 	}
 
-	public BufferedImage createImage(String name) {
+	private BufferedImage createImage(String name) {
 
 		BufferedImage bufferedImage;
 		try {
@@ -151,9 +143,24 @@ public class View extends JPanel {
 		super.paintComponent(g);
 		setBackground(Color.gray);
 		picNum = (picNum + 1) % count;
-		if (movement.equals("_forward_")) {
+		
+		if (isFire) {
+			int i = 0;
+			
+			int X = this.x;
+			int Y = this.y;
+			g.drawImage(fireAnimation[picNum%4], X, Y, Color.gray, this);
+			i++;
+			if (i >= 4) {
+				isFire = !isFire;
+			}
+		} else {
 			g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
 		}
+		
+		
+		//g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
+		
 	}
 
 	public Dimension getPreferredSize() {
@@ -210,26 +217,39 @@ public class View extends JPanel {
 	}
 	
 	public int getFRAME_COUNT() {
-		return this.FORWARD_SUBCOUNT;
+		return this.FRAME_COUNT;
 	}
 	
 	public int getDIE_COUNT() {
-		return this.DIE_SUBCOUNT;
+		return this.DIE_COUNT;
 	}
 	
 	public int getFIRE_COUNT() {
-		return this.FIRE_SUBCOUNT;
+		return this.FIRE_COUNT;
 	}
 	
 	public int getJUMP_COUNT() {
-		return this.JUMP_SUBCOUNT;
+		return this.JUMP_COUNT;
 	}
 	
 	public String getMovement() {
 		return this.movement;
 	}
-
-	public String getDirectionOrcImage(int index) {
-		return directionArray[index];
+	
+	public void setFire() {
+		this.isFire = true;
 	}
+	
+	public void setNotFire() {
+		this.isFire = false;
+	}
+	
+	public boolean getFire() {
+		return this.isFire;
+	}
+	
+	public void updateFire() {
+		this.isFire = !this.isFire;
+	}
+
 }

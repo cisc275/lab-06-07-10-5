@@ -34,13 +34,17 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 
 	// run the simulation
 	public void start() {
-		System.out.println("I m in start");
+		//System.out.println("I m in start");
 		drawAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (flag == true) {
-					model.updateLocationAndDirection();
+					
+					if (!drawPanel.isFire) {
+						model.updateLocationAndDirection();
+					}
 					drawPanel.update(model.getX(), model.getY(), model.getDirect());
 				}
+				
 			}
 		};
 
@@ -70,6 +74,8 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -78,9 +84,9 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 			// Pressed F key to fire
 			drawPanel.setMovement("_fire_");
 			drawPanel.setCount(drawPanel.getFIRE_COUNT());
-			drawPanel.update(model.getX(), model.getY(), model.getDirect());
-			//drawPanel.createImage("src/orc_animation/orc" + drawPanel.getMovement() + drawPanel.getDirectionOrcImage(model.getDirect()) + ".png");
-			drawPanel.createImage("src/orc_animation/orc" + drawPanel.getMovement() + model.getStringDirect() + ".png");
+			
+			drawPanel.updateFire();
+			
 			System.out.println("F has been pressed");
 		}
 		else if(key == KeyEvent.VK_J) {
