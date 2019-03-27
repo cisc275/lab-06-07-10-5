@@ -35,6 +35,9 @@ public class View extends JPanel {
 	private int imgHeight = 165;
 
 	private BufferedImage[][] animations;
+	
+	// Fills an array with the file paths for 8 different orc images
+	private String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
 
 	public int count;
 	
@@ -76,9 +79,6 @@ public class View extends JPanel {
 		animations = new BufferedImage[DIRECTION_COUNT][count];
 		BufferedImage[] indexArray = new BufferedImage[DIRECTION_COUNT];
 
-		// Fills an array with the file paths for 8 different orc images
-		String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
-
 		for (int i = 0; i < directionArray.length; i++) {
 			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
 		}
@@ -101,7 +101,7 @@ public class View extends JPanel {
 		button.addActionListener(c);
 	}
 
-	private BufferedImage createImage(String name) {
+	public BufferedImage createImage(String name) {
 
 		BufferedImage bufferedImage;
 		try {
@@ -196,4 +196,7 @@ public class View extends JPanel {
 		return this.movement;
 	}
 
+	public String getDirectionOrcImage(int index) {
+		return directionArray[index];
+	}
 }
