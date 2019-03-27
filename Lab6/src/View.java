@@ -44,7 +44,7 @@ public class View extends JPanel {
 	private final int JUMP_COUNT = 8;
 	
 	
-	private final int DIRECTION_COUNT = 8; //24;
+	private final int DIRECTION_COUNT = 8;
 	private int picNum = 0;
 
 	private int x;
@@ -81,7 +81,6 @@ public class View extends JPanel {
 
 		for (int i = 0; i < directionArray.length; i++) {
 			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
-			//System.out.println("first loop");
 		}
 
 		for (int i = 0; i < directionArray.length; i++) {
@@ -93,6 +92,7 @@ public class View extends JPanel {
 		frame.setVisible(true);
 		//button.setVisible(true);
 		
+		//Allows key presses to work with JPanel
 		this.setFocusable(true);
 
 	}
@@ -117,9 +117,10 @@ public class View extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		setBackground(Color.gray);
-		picNum = (picNum + 1) % FRAME_COUNT;
-		g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
-
+		picNum = (picNum + 1) % count;
+		if (movement.equals("_forward_")) {
+			g.drawImage(animations[this.dir][picNum], this.x, this.y, Color.gray, this);
+		}
 	}
 
 	public Dimension getPreferredSize() {
@@ -189,6 +190,10 @@ public class View extends JPanel {
 	
 	public int getJUMP_COUNT() {
 		return this.JUMP_COUNT;
+	}
+	
+	public String getMovement() {
+		return this.movement;
 	}
 
 }
