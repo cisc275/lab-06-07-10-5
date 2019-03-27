@@ -56,8 +56,13 @@ public class Controller extends JFrame implements ActionListener, KeyListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// if ("Pressed".equals(e.getActionCommand())) {
-		flag = !flag;
+		if ("Pressed".equals(e.getActionCommand())) {
+			//Without setFocusable(false), the KeyListener stops working because the container it is listening to has lost focus to the JButton.
+			drawPanel.button.setFocusable(false);
+			
+			flag = !flag;
+			System.out.println(flag);
+		}
 	}
 	
 	@Override
