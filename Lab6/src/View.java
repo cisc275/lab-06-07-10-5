@@ -38,16 +38,20 @@ public class View extends JPanel {
 	
 	// Fills an array with the file paths for 8 different orc images
 	private String[] directionArray = {"southeast", "east", "north", "northeast", "northwest", "south", "southwest", "west"};
+	private BufferedImage[] forwardArray;
+	private BufferedImage[] fireArray;
+	private BufferedImage[] jumpArray;
+	private BufferedImage[] dieArray;
 
 	public int count;
 	
-	private final int FRAME_COUNT = 10;
-	private final int DIE_COUNT = 4;
-	private final int FIRE_COUNT = 8;
-	private final int JUMP_COUNT = 8;
+	private final int FORWARD_SUBCOUNT = 10; // reflects the number of sub-images for the forwardArray[]
+	private final int DIE_SUBCOUNT = 7; // reflects the number of sub-images for the dieArray[]
+	private final int FIRE_SUBCOUNT = 4; // reflects the number of sub-images for the fireArray[]
+	private final int JUMP_SUBCOUNT = 8; // reflects the number of sub-images for the jumpArray[]
 	
 	
-	private final int DIRECTION_COUNT = 8;
+	private final int DIRECTION_COUNT = 8; // reflects the size of directionArray[]
 	private int picNum = 0;
 
 	private int x;
@@ -61,7 +65,7 @@ public class View extends JPanel {
 	 */
 	public View() {
 		movement = "_forward_";
-		count = FRAME_COUNT;
+		count = FORWARD_SUBCOUNT;
 		
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(this);
@@ -77,15 +81,21 @@ public class View extends JPanel {
 		button.setActionCommand("Pressed");
 
 		animations = new BufferedImage[DIRECTION_COUNT][count];
-		BufferedImage[] indexArray = new BufferedImage[DIRECTION_COUNT];
+		forwardArray = new BufferedImage[DIRECTION_COUNT];
+		
+		fillImageArrays(forwardArray, "_forward_", DIRECTION_COUNT);
+		fillImageArrays(fireArray, "_fire_", DIRECTION_COUNT);
+		fillImageArrays(jumpArray, "_jump_", DIRECTION_COUNT);
+		fillImageArrays(jumpArray, "_die_", DIE_SUBCOUNT);
+
+		/*
+		for (int i = 0; i < directionArray.length; i++) {
+			forwardArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
+		}*/
 
 		for (int i = 0; i < directionArray.length; i++) {
-			indexArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
-		}
-
-		for (int i = 0; i < directionArray.length; i++) {
-			for (int j = 0; j < FRAME_COUNT; j++) {
-				animations[i][j] = indexArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+			for (int j = 0; j < FORWARD_SUBCOUNT; j++) {
+				animations[i][j] = forwardArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
 				//System.out.println("second loop");
 			}
 		}
@@ -94,7 +104,18 @@ public class View extends JPanel {
 		
 		//Allows key presses to work with JPanel
 		this.setFocusable(true);
-
+	}
+	
+	/**
+	 * Helper method used to fill the arrays based on the orc movement (i.e. forward, fire, jump, etc)
+	 * @param array the array to be filled with images
+	 * @param movement the direction that corresponds to the array type
+	 * @param count the number of sub-images for the image type
+	 */
+	private void fillImageArrays(BufferedImage[] array, String movement, int count) {
+		for (int i = 0; i < count; i++) {
+			array[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
+		}
 	}
 	
 	public void updateButton(Controller c)	{
@@ -177,19 +198,19 @@ public class View extends JPanel {
 	}
 	
 	public int getFRAME_COUNT() {
-		return this.FRAME_COUNT;
+		return this.FORWARD_SUBCOUNT;
 	}
 	
 	public int getDIE_COUNT() {
-		return this.DIE_COUNT;
+		return this.DIE_SUBCOUNT;
 	}
 	
 	public int getFIRE_COUNT() {
-		return this.FIRE_COUNT;
+		return this.FIRE_SUBCOUNT;
 	}
 	
 	public int getJUMP_COUNT() {
-		return this.JUMP_COUNT;
+		return this.JUMP_SUBCOUNT;
 	}
 	
 	public String getMovement() {
