@@ -41,7 +41,7 @@ public class View extends JPanel {
 	private BufferedImage[] forwardArray;
 	private BufferedImage[] fireArray;
 	private BufferedImage[] jumpArray;
-	private BufferedImage[] dieArray;
+	//private BufferedImage[] dieArray;
 
 	public int count;
 	
@@ -82,23 +82,27 @@ public class View extends JPanel {
 
 		animations = new BufferedImage[DIRECTION_COUNT][count];
 		forwardArray = new BufferedImage[DIRECTION_COUNT];
+		fireArray = new BufferedImage[DIRECTION_COUNT];
+		jumpArray = new BufferedImage[DIRECTION_COUNT];
 		
-		fillImageArrays(forwardArray, "_forward_", DIRECTION_COUNT);
-		fillImageArrays(fireArray, "_fire_", DIRECTION_COUNT);
-		fillImageArrays(jumpArray, "_jump_", DIRECTION_COUNT);
-		fillImageArrays(jumpArray, "_die_", DIE_SUBCOUNT);
+		fillImageArrays(forwardArray, "_forward_", FORWARD_SUBCOUNT);
+		fillImageArrays(fireArray, "_fire_", FIRE_SUBCOUNT);
+		fillImageArrays(jumpArray, "_jump_", JUMP_SUBCOUNT);
+		//fillImageArrays(jumpArray, "_die_", DIE_SUBCOUNT);
 
 		/*
 		for (int i = 0; i < directionArray.length; i++) {
 			forwardArray[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
 		}*/
 
+		/*
 		for (int i = 0; i < directionArray.length; i++) {
 			for (int j = 0; j < FORWARD_SUBCOUNT; j++) {
 				animations[i][j] = forwardArray[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
 				//System.out.println("second loop");
 			}
 		}
+		*/
 		frame.setVisible(true);
 		//button.setVisible(true);
 		
@@ -113,8 +117,16 @@ public class View extends JPanel {
 	 * @param count the number of sub-images for the image type
 	 */
 	private void fillImageArrays(BufferedImage[] array, String movement, int count) {
-		for (int i = 0; i < count; i++) {
+		for (int i = 0; i < DIRECTION_COUNT; i++) {
 			array[i] = createImage("src/orc_animation/orc" + movement + directionArray[i] + ".png");
+			System.out.println("no issues here");
+		}
+		
+		for (int i = 0; i < directionArray.length; i++) {
+			for (int j = 0; j < count; j++) {
+				animations[i][j] = array[i].getSubimage(imgWidth * j, 0, imgWidth, imgHeight);
+				//System.out.println("second loop");
+			}
 		}
 	}
 	
