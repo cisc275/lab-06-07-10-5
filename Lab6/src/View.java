@@ -46,7 +46,7 @@ public class View extends JPanel {
 	private BufferedImage[][] jump_animations;
 	
 	
-	public int count;
+	private int count;
 	
 	private final int FRAME_COUNT = 10;
 	private final int DIE_COUNT = 4;
@@ -101,16 +101,19 @@ public class View extends JPanel {
 			}
 		}
 		
+		
 		fireIMG_east = createImage("src/orc_animation/orc_fire_east.png"); // fills the fire east animation
 		for (int i = 0; i < 4; i++) {
 			fireAnimation_east[i] = fireIMG_east.getSubimage(imgWidth * i, 0, imgWidth, imgHeight);
 		}
 		
 		fire_animations = new BufferedImage[DIRECTION_COUNT][4]; // fills in the 2D fire array
+		
 		BufferedImage[] indexFireArray = new BufferedImage[DIRECTION_COUNT];
 		for (int i = 0; i < DIRECTION_COUNT; i++) {
 			indexFireArray[i] = createImage("src/orc_animation/orc_fire_" + fire_directionArray[i] + ".png");
 		}
+		
 		
 		for (int i = 0; i < DIRECTION_COUNT; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -200,8 +203,7 @@ public class View extends JPanel {
 		this.x = x;
 		this.y = y;
 		this.dir = d;
-//		System.out.printf("Model x = %d \n", this.x);
-//		System.out.printf("Model y = %d \n", this.y);
+
 		try {
 			this.setBackground(Color.gray);
 			this.repaint();
