@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 @SuppressWarnings("serial")
-public class Controller extends JFrame implements ActionListener, KeyListener {
+public class Controller implements ActionListener, KeyListener {
 
 	private Model model;
 	private View drawPanel;

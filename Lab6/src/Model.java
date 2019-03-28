@@ -48,7 +48,7 @@ public class Model {
     	
     	// Updates the x vectors when the orc moves off the screen
     	if (xloc + imgWidth >= frameWidth) {
-			xVector = -1; // orc is moving off the screen in the right direction; start moving right
+			xVector = -1; // orc is moving off the screen in the right direction; start moving left
 		} else if (xloc <= 0) {
 			xVector = 1; // orc is moving off the screen in the left direction; start moving right
 		}
