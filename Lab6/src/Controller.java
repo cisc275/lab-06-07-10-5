@@ -42,7 +42,6 @@ public class Controller implements ActionListener, KeyListener {
 					
 					drawPanel.update(model.getX(), model.getY(), model.getDirect());
 				}
-				
 			}
 		};
 

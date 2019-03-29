@@ -43,6 +43,7 @@ public class Model {
      * Checks where the orc is on the screen and changes direction when it nears any edge
      */
     public void updateLocationAndDirection() {
+
     	xloc+=(xIncr*xVector); // updates the x-direction
     	yloc+=(yIncr*yVector); // updates the y-direction
     	
